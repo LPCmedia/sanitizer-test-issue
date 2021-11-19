@@ -1,0 +1,124 @@
+{
+  "version": 1,
+  "projects": {
+    "fooo": {
+      "projectType": "application",
+      "root": "apps/fooo",
+      "sourceRoot": "apps/fooo/src",
+      "prefix": "fooooooo",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/fooo",
+            "index": "apps/fooo/src/index.html",
+            "main": "apps/fooo/src/main.ts",
+            "polyfills": "apps/fooo/src/polyfills.ts",
+            "tsConfig": "apps/fooo/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": ["apps/fooo/src/favicon.ico", "apps/fooo/src/assets"],
+            "styles": ["apps/fooo/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/fooo/src/environments/environment.ts",
+                  "with": "apps/fooo/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "fooo:build:production"
+            },
+            "development": {
+              "browserTarget": "fooo:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "fooo:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/fooo/src/**/*.ts",
+              "apps/fooo/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/fooo"],
+          "options": {
+            "jestConfig": "apps/fooo/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "fooo-e2e": {
+      "root": "apps/fooo-e2e",
+      "sourceRoot": "apps/fooo-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/fooo-e2e/cypress.json",
+            "devServerTarget": "fooo:serve:development"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "fooo:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/fooo-e2e/**/*.{js,ts}"]
+          }
+        }
+      },
+      "tags": [],
+      "implicitDependencies": ["fooo"]
+    }
+  }
+}
