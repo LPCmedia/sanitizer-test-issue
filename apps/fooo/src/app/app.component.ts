@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'fooooooo-root',
@@ -6,5 +7,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'fooo';
+  supposedlySafeUrl: SafeResourceUrl = '';
+  constructor(private domSanitizer: DomSanitizer) {
+  }
+
+  ngOnInit(): void {
+    this.supposedlySafeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl('foo.html');
+  }
 }
